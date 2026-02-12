@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+/* ===== Animated Gradient Base ===== */
+body::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 30%, #ff7eb3, transparent 40%),
+                radial-gradient(circle at 80% 70%, #ff758c, transparent 40%),
+                radial-gradient(circle at 50% 50%, #ff9a9e, transparent 50%);
+    animation: moveBg 15s infinite alternate ease-in-out;
+    z-index: -3;
+}
+
+@keyframes moveBg {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(-10%, -10%); }
+}
+
+/* ===== Soft Particle Overlay ===== */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sparkleMove 6s linear infinite;
+}
+
+@keyframes sparkleMove {
+    0% { transform: translateY(100vh); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* ===== Glass Card ===== */
+.card {
+    position: relative;
+    width: 420px;
+    padding: 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.typewriter {
+    font-size: 1rem;
+    min-height: 60px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.yes {
+    background: #ff3c6f;
+    color: white;
+}
+
+.yes:hover {
+    transform: scale(1.2);
+}
+
+.no {
+    background: white;
+    color: #ff3c6f;
+    position: relative;
+    transition: transform 0.35s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+/* ===== Cat Image ===== */
+#catContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    text-align: center;
+    z-index: 5;
+}
+
+#catImage {
+    width: 130px;
+    animation: bounce 0.6s ease infinite alternate;
+}
+
+#catText {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
+
+
+/* ===== Floating Hearts ===== */
+.heart {
+    position: absolute;
+    bottom: -30px;
+    width: 15px;
+    height: 15px;
+    background: #ff3c6f;
+    transform: rotate(45deg);
+    animation: float 5s linear infinite;
+    z-index: -1;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #ff3c6f;
+    border-radius: 50%;
+}
+
+.heart::before { top: -8px; left: 0; }
+.heart::after { left: -8px; top: 0; }
+
+@keyframes float {
+    to {
+        transform: translateY(-120vh) rotate(45deg);
+        opacity: 0;
+    }
+}
+/* ===== FULL SCREEN CELEBRATION ===== */
+#celebration {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #fff0f5, #ff3c6f);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+    z-index: 20;
+}
+
+#celebration.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.celebration-text {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    color: white;
+    text-align: center;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.celebration-sub {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff3c6f;
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 0 0 25px #fff, 0 0 40px #ff3c6f;
+        transform: scale(1.05);
+    }
+}
+
+/* Firework hearts */
+.fire-heart {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    background: #ff3c6f;
+    transform: rotate(45deg);
+    z-index: 25;
+}
+
+.fire-heart::before,
+.fire-heart::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #ff3c6f;
+    border-radius: 50%;
+}
+
+.fire-heart::before { top: -9px; left: 0; }
+.fire-heart::after { left: -9px; top: 0; }
+
+/* Continuous Falling Hearts */
+.floating-heart {
+    position: fixed;
+    top: -20px;
+    width: 16px;
+    height: 16px;
+    background: white;
+    transform: rotate(45deg);
+    opacity: 0.8;
+    z-index: 30;
+}
+
+.floating-heart::before,
+.floating-heart::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+}
+
+.floating-heart::before { top: -8px; left: 0; }
+.floating-heart::after { left: -8px; top: 0; }
+
+.celebration-content {
+    text-align: center;
+    animation: fadeInScale 1.2s ease forwards;
+}
+
+#pandaGif {
+    margin-top: 25px;
+    width: 180px;
+    max-width: 60vw;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: pandaPop 1.5s ease;
+}
+
+@keyframes pandaPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="card">
+    <h1>Butu will You Be My Valentine? ❤️</h1>
+    <div class="typewriter" id="message"></div>
+    <button class="yes" onclick="sayYes()">Yes 💖</button>
+    <button class="no" id="noBtn">No 😢</button>
+</div>
+
+<div id="catContainer">
+    <img src="cat.png" id="catImage" alt="Cute Cat">
+    <div id="catText">No vera solluviya nee pannikutty</div>
+</div>
+
+<div id="celebration">
+    <div class="celebration-content">
+        <h1 class="celebration-text">She Said YES ❤️</h1>
+        <p class="celebration-sub">
+            Mission: Steal Your Heart — SUCCESS. ❤️
+        </p>
+
+        <img src="panda.gif" id="pandaGif" alt="Happy Panda">
+    </div>
+</div>
+
+
+
+<script>
+
+// ===== TYPEWRITER FIX =====
+const text = "Every moment with you feels like magic, and I can't imagine my world without you...";
+const messageEl = document.getElementById("message");
+let index = 0;
+
+function typeWriter() {
+    if (index < text.length) {
+        messageEl.textContent += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, 35);
+    }
+}
+messageEl.textContent = "";
+typeWriter();
+
+
+// ===== PARTICLES =====
+const particles = document.getElementById("particles");
+for (let i = 0; i < 40; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("sparkle");
+    dot.style.left = Math.random() * 100 + "vw";
+    dot.style.animationDuration = (4 + Math.random() * 4) + "s";
+    particles.appendChild(dot);
+}
+
+
+// ===== NO BUTTON PROPER MOVEMENT =====
+const noBtn = document.getElementById("noBtn");
+const catContainer = document.getElementById("catContainer");
+
+let catShown = false;
+
+noBtn.addEventListener("mouseenter", () => {
+
+    const card = document.querySelector(".card");
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = cardRect.width - btnRect.width - 20;
+    const maxY = cardRect.height - btnRect.height - 20;
+
+    const randomX = Math.random() * maxX - (cardRect.width / 2 - btnRect.width / 2);
+    const randomY = Math.random() * maxY - (cardRect.height / 2 - btnRect.height / 2);
+
+    noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+    // Show cat permanently after first hover
+    if (!catShown) {
+        catContainer.style.display = "block";
+        catShown = true;
+    }
+});
+
+
+
+// ===== YES BUTTON HEART EXPLOSION =====
+let heartInterval;
+
+function sayYes() {
+
+    const celebration = document.getElementById("celebration");
+    celebration.classList.add("active");
+
+    // Firework burst
+    for (let i = 0; i < 80; i++) {
+
+        const heart = document.createElement("div");
+        heart.classList.add("fire-heart");
+
+        heart.style.left = "50%";
+        heart.style.top = "50%";
+
+        document.body.appendChild(heart);
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 400 + 100;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        heart.animate([
+            { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+            { transform: `translate(${x}px, ${y}px) scale(0.3)`, opacity: 0 }
+        ], {
+            duration: 2000,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => heart.remove(), 2000);
+    }
+
+    // Start continuous heart rain
+    startHeartRain();
+}
+
+function startHeartRain() {
+
+    if (heartInterval) return; // prevent duplicate intervals
+
+    heartInterval = setInterval(() => {
+
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+
+        heart.style.left = Math.random() * 100 + "vw";
+
+        document.body.appendChild(heart);
+
+        const duration = 4000 + Math.random() * 3000;
+
+        heart.animate([
+            { transform: "translateY(0) rotate(45deg)", opacity: 0.9 },
+            { transform: "translateY(110vh) rotate(45deg)", opacity: 0 }
+        ], {
+            duration: duration,
+            easing: "linear"
+        });
+
+        setTimeout(() => heart.remove(), duration);
+
+    }, 250); // new heart every 250ms
+}
+
+
+</script>
+
+
+</body>
+</html>
